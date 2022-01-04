@@ -3,11 +3,12 @@
 > **Em construção**
 
 ### Tecnologias
-- Java 11
-- Spring Boot
-- Maven
-- Lombok
-- MapStruct
+- [Java 11](https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Maven](https://maven.apache.org/index.html)
+- [Lombok](https://projectlombok.org/)
+- [MapStruct](https://mapstruct.org/)
+- [H2](https://www.h2database.com/html/main.html)
 
 ### Configuração de ambiente
 
