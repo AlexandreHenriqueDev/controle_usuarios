@@ -5,6 +5,9 @@ import br.com.treinamento.annotation.CPF;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import static java.lang.Integer.valueOf;
+import static java.lang.String.valueOf;
+
 public class CpfValidator implements ConstraintValidator<CPF, String> {
 
 
@@ -31,7 +34,7 @@ public class CpfValidator implements ConstraintValidator<CPF, String> {
         digito1 = digito2 = resto = 0;
 
         for (int nCount = 1; nCount < cpf.length() - 1; nCount++) {
-            digitoCPF = Integer.valueOf(cpf.substring(nCount - 1, nCount)).intValue();
+            digitoCPF = valueOf(cpf.substring(nCount - 1, nCount)).intValue();
 
             // multiplique a ultima casa por 2 a seguinte por 3 a seguinte por 4
             // e assim por diante.

@@ -24,7 +24,7 @@ public class CadastroUsuarioController {
     private CadastroUsuariosService cadastroUsuariosService;
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@Valid @RequestBody CadastroUsuarioDto cadastroUsuarioDto) throws BadRequestException {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody CadastroUsuarioDto cadastroUsuarioDto) {
         return ResponseEntity.ok().body(cadastroUsuariosService.cadastrar(cadastroUsuarioDto));
     }
 

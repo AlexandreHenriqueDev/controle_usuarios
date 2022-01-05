@@ -20,7 +20,7 @@ public class CargoService {
     public Cargo salvar(CargoDto cargoDto) throws BadRequestException {
 
         if(cargoRepository.findByNome(cargoDto.getNome()).isPresent()) {
-            throw new BadRequestException("Já existe um cargo com este nome!");
+            throw new BadRequestException("Já existe um cargo com este nome!", new RuntimeException());
         }
 
         return cargoRepository.save(cargoDto.toEntity());
@@ -29,7 +29,7 @@ public class CargoService {
     public Cargo editar(CargoDto cargoDto) throws BadRequestException {
         Optional<Cargo> cargoNoBanco = cargoRepository.findById(cargoDto.getId());
         if(!cargoNoBanco.isPresent()) {
-            throw new BadRequestException("Não existe um cargo com este id!");
+            throw new BadRequestException("Não existe um cargo com este id!", new RuntimeException());
         }
         Optional<Cargo> cargoNoBancoMesmoNome = cargoRepository.findByNome(cargoDto.getNome());
         Cargo cargo = cargoNoBanco.get();
@@ -37,7 +37,7 @@ public class CargoService {
         if(!cargoNoBancoMesmoNome.isPresent() || cargoNoBancoMesmoNome.isPresent() && cargoNoBancoMesmoNome.get().getId().equals(cargoDto.getId())) {
             return cargoRepository.save(cargo);
         } else {
-            throw new BadRequestException("Já existe um cargo com este nome!");
+            throw new BadRequestException("Já existe um cargo com este nome!", new RuntimeException());
         }
 
     }
@@ -47,6 +47,10 @@ public class CargoService {
             return cargoRepository.findAllByOrderByNomeAsc();
         }
         return cargoRepository.findAll();
+    }
+
+    public Optional<Cargo> buscarPorId(String id) {
+        return cargoRepository.findById(id);
     }
 
 }
