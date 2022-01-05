@@ -25,7 +25,7 @@ public class PerfilService {
     public Perfil salvar(PerfilDto perfilDto) throws BadRequestException {
 
         if(perfilRepository.findByNome(perfilDto.getNome()).isPresent()) {
-            throw new BadRequestException("Já existe um perfil com este nome!");
+            throw new BadRequestException("Já existe um perfil com este nome!", new RuntimeException());
         }
 
         return perfilRepository.save(perfilDto.toEntity());
@@ -34,7 +34,7 @@ public class PerfilService {
     public Perfil editar(PerfilDto perfilDto) throws BadRequestException {
         Optional<Perfil> perfilNoBanco = perfilRepository.findById(perfilDto.getId());
         if(!perfilNoBanco.isPresent()) {
-            throw new BadRequestException("Não existe um perfil com este id!");
+            throw new BadRequestException("Não existe um perfil com este id!", new RuntimeException());
         }
         Optional<Perfil> cargoNoBancoMesmoNome = perfilRepository.findByNome(perfilDto.getNome());
         Perfil perfil = perfilNoBanco.get();
@@ -42,7 +42,7 @@ public class PerfilService {
         if(!cargoNoBancoMesmoNome.isPresent() || cargoNoBancoMesmoNome.isPresent() && cargoNoBancoMesmoNome.get().getId().equals(perfilDto.getId())) {
             return perfilRepository.save(perfil);
         } else {
-            throw new BadRequestException("Já existe um perfil com este nome!");
+            throw new BadRequestException("Já existe um perfil com este nome!", new RuntimeException());
         }
 
     }
@@ -58,10 +58,14 @@ public class PerfilService {
         Optional<Usuario> usuarioVinculadoPerfil = usuarioRepository.findAllByPerfis(perfilDto.toEntity());
 
         if(usuarioVinculadoPerfil.isPresent()) {
-            throw new BadRequestException("Existem usuários vinculados a este perfil!");
+            throw new BadRequestException("Existem usuários vinculados a este perfil!", new RuntimeException());
         }
 
         perfilRepository.delete(perfilDto.toEntity());
+    }
+
+    public Optional<Perfil> buscarPorId(String id) {
+        return perfilRepository.findById(id);
     }
 
 }

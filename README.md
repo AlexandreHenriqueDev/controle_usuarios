@@ -20,7 +20,7 @@
 - mvn clean install
 - mvn spring-boot:run
 
-A aplicação toda na porta 9090.
+Swagger: http://localhost:9090/api/controleUsuarios/swagger-ui.html
 
 #### Frontend
 

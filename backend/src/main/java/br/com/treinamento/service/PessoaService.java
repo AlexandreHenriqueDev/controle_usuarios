@@ -20,7 +20,7 @@ public class PessoaService {
         Optional<Pessoa> pessoaNoBanco = pessoaRepository.findByCpf(cadastroUsuarioDto.getCpf());
 
         if(pessoaNoBanco.isPresent()) {
-            throw new BadRequestException("Já existe uma pessoa com este cpf!");
+            throw new BadRequestException("Já existe uma pessoa com este cpf!", new RuntimeException());
         }
 
         return pessoaRepository.save(cadastroUsuarioDto.toPessoa());
