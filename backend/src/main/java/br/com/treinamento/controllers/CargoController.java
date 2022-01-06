@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/v1/cargo")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CargoController extends BaseController {
 
     @Autowired

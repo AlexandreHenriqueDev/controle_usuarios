@@ -26,4 +26,8 @@ public class UsuarioService {
         usuarioCadastro.setPerfis(perfis);
         return usuarioRepository.save(usuarioCadastro);
     }
+
+    public Iterable<Usuario> buscar() {
+        return usuarioRepository.findAll();
+    }
 }

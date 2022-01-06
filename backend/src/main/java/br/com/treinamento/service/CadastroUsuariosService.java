@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -25,6 +27,12 @@ public class CadastroUsuariosService {
 
     @Autowired
     private PerfilService perfilService;
+
+    public Iterable<Usuario> buscar() {
+        Iterable<Usuario> usuarios = usuarioService.buscar();
+
+        return usuarios;
+    }
 
     @Transactional
     public Usuario cadastrar(CadastroUsuarioDto cadastroUsuarioDto) throws BadRequestException {

@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-const url = 'http://localhost:9090/api/controleUsuarios/v1/cargo/'
+const url = 'http://localhost:9090/api/controleUsuarios/v1/cargo'
 
-export function listar() {
-
-	return axios.get(url)
+export async function listar(order) {
+	return await axios.get(url + (!order ? '?ordenado=true' : ''))
 }
 
 export function salvar(cargo) {

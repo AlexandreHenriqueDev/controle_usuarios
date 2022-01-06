@@ -1,8 +1,7 @@
 import React from 'react'
+import PerfisTable from '~/components/perfis/PerfisTable'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid';
-
-import UsuarioTable from '~/components/usuario/UsuarioTable';
 
 export default _ => {
 
@@ -15,7 +14,7 @@ export default _ => {
 					justify="center"
 					alignItems="center"
 				>
-					<h1 style={{color: '#fff', margin: '5vh 0'}}>Sistema de controle de usuários</h1>
+					<h1 style={{color: '#fff', margin: '5vh 0'}}>Sistema de controle de usuários - Perfis</h1>
 				</Grid>
 				<Grid
 					container
@@ -23,7 +22,7 @@ export default _ => {
 					justify="center"
 					alignItems="center"
 				>
-					<UsuarioTable />
+					<PerfisTable/>
 				</Grid>
 			</Container>
 		</div>

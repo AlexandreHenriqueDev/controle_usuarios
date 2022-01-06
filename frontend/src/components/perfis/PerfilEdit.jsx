@@ -35,9 +35,9 @@ const useStyles = makeStyles({
 
 export default props => {
 
-	const cargo = props.cargo
-	const alter = props.alterCargo
-	const edit = props.editCargo
+	const perfil = props.perfil
+	const alter = props.alterPerfil
+	const edit = props.editPerfil
 	const classes = useStyles()
 
 	return (
@@ -52,11 +52,11 @@ export default props => {
 						<TextField
 							id="standard-textarea"
 							label="Nome"
-							placeholder="Nome do cargo"
+							placeholder="Nome do perfil"
 							variant="outlined"
-							defaultValue={cargo.nome}
+							defaultValue={perfil.nome}
 							size="small"
-							onChange={e => alter({ ...cargo, nome: e.target.value })}
+							onChange={e => alter({ ...perfil, nome: e.target.value })}
 						/>
 					</ListItem>
 				</List>
@@ -69,8 +69,8 @@ export default props => {
 					color="primary"
 					className={classes.button}
 					startIcon={<Check />}
-					onClick={_ => edit(cargo)}
-					disabled={!cargo || !cargo.nome}
+					onClick={_ => edit(perfil)}
+					disabled={!perfil || !perfil.nome}
 					>
 					Editar
 				</Button>

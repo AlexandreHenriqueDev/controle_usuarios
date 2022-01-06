@@ -23,17 +23,17 @@ public class PerfilController extends BaseController {
     }
 
     @PostMapping
-    public ResponseEntity<Perfil> salvar(@RequestBody PerfilDto perfilDto) throws BadRequestException {
+    public ResponseEntity<Perfil> salvar(@RequestBody PerfilDto perfilDto) {
         return ResponseEntity.ok().body(perfilService.salvar(perfilDto));
     }
 
     @PutMapping
-    public ResponseEntity<Perfil> editar(@RequestBody PerfilDto perfilDto) throws BadRequestException {
+    public ResponseEntity<Perfil> editar(@RequestBody PerfilDto perfilDto) {
         return ResponseEntity.ok().body(perfilService.editar(perfilDto));
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletar(@RequestBody PerfilDto perfilDto) throws BadRequestException {
+    @PostMapping(path = "/deletar")
+    public ResponseEntity<?> deletar(@RequestBody PerfilDto perfilDto) {
         try {
             perfilService.deletar(perfilDto);
             return ResponseEntity.ok().body(perfilDto);

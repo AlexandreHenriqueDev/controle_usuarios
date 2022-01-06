@@ -11,15 +11,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Edit from '@material-ui/icons/Edit';
+import Remove from '@material-ui/icons/Remove';
 import Add from '@material-ui/icons/Add';
 import Check from '@material-ui/icons/Check';
 import Modal from '@material-ui/core/Modal';
 import Close from '@material-ui/icons/Close';
 import { FormGroup, FormControlLabel, Switch } from '@material-ui/core';
+import { listar, salvar, editar, deletar } from '~/services/perfis.service';
 
-import { listar, salvar, editar } from '~/services/cargos.service';
-
-import CargoEdit from '~/components/cargos/CargoEdit';
+import PerfilEdit from '~/components/perfis/PerfilEdit';
 
 const useStyles = makeStyles({
 	table: {
@@ -41,26 +41,25 @@ const useStyles = makeStyles({
 export default _ => {
 	const classes = useStyles();
 	const [newElem, setNewElem] = useState(false)
-
-	const [buscaOrdenada, setBuscaOrdenada] = useState(false)
-
-	const [cargoAdd, setCargo] = useState({
+	const [perfilAdd, setPerfil] = useState({
 		nome: ''
 	})
 
-	const [cargos, setCargos] = useState()
+	const [buscaOrdenada, setBuscaOrdenada] = useState(false)
+
+	const [perfis, setPerfis] = useState()
 	useEffect(_ => {
 		listar(buscaOrdenada).then(response => {
-			setCargos(response.data);
+			setPerfis(response.data);
 		})
 	}, [])
 
-	function salvarCargo() {
+	function salvarPerfil() {
 
 		setNewElem(false)
-		salvar(cargoAdd).then(response => {
+		salvar(perfilAdd).then(response => {
 			listar(buscaOrdenada).then(response => {
-				setCargos(response.data);
+				setPerfis(response.data);
 			})
 		})
 		.catch(e => {
@@ -70,24 +69,36 @@ export default _ => {
 	}
 
 	const [open, setOpen] = useState(false);
-	const [cargoEditar, setCargoEditar] = useState(null);
+	const [perfilEditar, setPerfilEditar] = useState(null);
 
 	const handleOpen = (o, p) => {
 		setOpen(o);
-		setCargoEditar(p);
+		setPerfilEditar(p);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
 
-	const handleEditCargo = cargo => {
-		setCargoEditar(cargo)
+	const handleEditPerfil = perfil => {
+		setPerfilEditar(perfil)
 		setOpen(false)
-		editar(cargo)
+		editar(perfil)
 		.then(response => {
 			listar(buscaOrdenada).then(response => {
-				setCargos(response.data);
+				setPerfis(response.data);
+			})
+		})
+		.catch(e => {
+			console.log(e);
+		});
+	}
+
+	function handleRemove(perfil) {
+		deletar(perfil)
+		.then(response => {
+			listar(buscaOrdenada).then(response => {
+				setPerfis(response.data);
 			})
 		})
 		.catch(e => {
@@ -98,11 +109,9 @@ export default _ => {
 	const buscar = _ => {
 		setBuscaOrdenada(!buscaOrdenada);
 		listar(buscaOrdenada).then(response => {
-			setCargos(response.data);
+			setPerfis(response.data);
 		})
 	}
-
-
 
 	function addRegion() {
 		if (newElem) {
@@ -112,14 +121,14 @@ export default _ => {
 						<TextField
 							id="standard-textarea"
 							label="Nome"
-							placeholder="Nome do cargo"
+							placeholder="Nome do perfil"
 							variant="outlined"
 							size="small"
-							onChange={e => setCargo({ ...cargoAdd, nome: e.target.value })}
+							onChange={e => setPerfil({ ...perfilAdd, nome: e.target.value })}
 						/>
 					</TableCell>
 					<TableCell align="right">
-						<Button type="submit" size="small" color="primary" disabled={!cargoAdd || !cargoAdd.nome} variant="outlined" className={classes.button} startIcon={<Check />} onClick={_ => salvarCargo()}>
+						<Button type="submit" size="small" color="primary" disabled={!perfilAdd || !perfilAdd.nome} variant="outlined" className={classes.button} startIcon={<Check />} onClick={_ => salvarPerfil()}>
 							Salvar
 							</Button>
 						<Button type="submit" size="small" variant="outlined" color="secondary" className={classes.button} startIcon={<Close />} onClick={_ => setNewElem(false)}>
@@ -154,9 +163,9 @@ export default _ => {
 		else return (<></>)
 	}
 
-	function renderCargos() {
-		let tabelaCargos = cargos && cargos.length > 0 
-			? cargos.map((row) => (
+	function renderPerfis() {
+		let tabelaPerfis = perfis && perfis.length > 0 
+			? perfis.map((row) => (
 				<TableRow key={row.id}>
 						<TableCell component="th" scope="row">
 							{row.nome}
@@ -165,10 +174,13 @@ export default _ => {
 							<IconButton size="small" color="primary" aria-label="add" onClick={_ => handleOpen(true, row)}>
 								<Edit />
 							</IconButton>
+							<IconButton size="small" color="primary" aria-label="add" onClick={_ => handleRemove(row)}>
+								<Remove />
+							</IconButton>
 						</TableCell>
 				</TableRow>))
 			: <></>;
-		return tabelaCargos;
+		return tabelaPerfis;
 	}
 
 	return (
@@ -179,7 +191,7 @@ export default _ => {
 						<TableRow>
 							<TableCell>
 								<h3>
-									Nome do cargo
+									Nome do perfil
 								</h3>
 								<FormGroup>
 									<FormControlLabel control={<Switch defaultValue={buscaOrdenada} onChange={buscar}/>} label="Ordenado" />
@@ -193,7 +205,7 @@ export default _ => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{renderCargos()}
+						{renderPerfis()}
 						{addRegion()}
 					</TableBody>
 				</Table>
@@ -206,7 +218,7 @@ export default _ => {
 				aria-describedby="simple-modal-description"
 				className={classes.modal}
 			>
-				<CargoEdit cargo={cargoEditar || cargoAdd} editCargo={handleEditCargo} alterCargo={setCargoEditar} fecharModal={handleClose}/>
+				<PerfilEdit perfil={perfilEditar || perfilAdd} editPerfil={handleEditPerfil} alterPerfil={setPerfilEditar} fecharModal={handleClose}/>
 			</Modal>
 		</>
 	)

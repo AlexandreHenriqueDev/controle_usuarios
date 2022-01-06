@@ -25,4 +25,8 @@ public class PessoaService {
 
         return pessoaRepository.save(cadastroUsuarioDto.toPessoa());
     }
+
+    public Pessoa buscarPorId(String id) {
+        return pessoaRepository.findById(id).get();
+    }
 }
